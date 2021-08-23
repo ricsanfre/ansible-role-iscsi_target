@@ -1,0 +1,39 @@
+---
+
+
+iscsi_default_initiators: []
+iscsi_default_portals: []
+iscsi_default_disk_type: block
+
+# ISCSI targets
+
+iscis_targets: []
+# iscsi_targets:
+#   - name: iqn.target1
+#     disks:
+#       - name: vm1
+#         path: testing/vm1
+#       - name: vm2
+#         path: testing/vm2
+#   - name: iqn.2021-07.com.ricsanfre:target1
+#     disks:
+#       - name: vm3
+#         path: testing/vm2
+#         type: iblock
+#     initiators:
+#       - name: iqn.2021-07.com.ricsanfre:target1
+#         authentication:
+#           userid: myuser
+#           password: mypassword
+#           userid_mutual: sharedkey
+#           password_mutual: sharedsecret
+#       - name: iqn.1994-05.com.redhat:client2
+#         authentication:
+#           userid: otheruser
+#           password: otherpw
+#           userid_mutual: somekey
+#           password_mutual: somesecret
+#     portals:
+#       - ip: 192.168.1.45
+#         port: 5555
+#       - ip: 192.168.2.10

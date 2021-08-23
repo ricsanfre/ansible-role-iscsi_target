@@ -1,0 +1,12 @@
+---
+
+- name: Install targetcli apt packages
+  package:
+    name: "{{ iscsi_packages }}"
+    state: present
+
+- include_tasks: configure-target.yml
+  with_items:
+    - "{{ iscsi_targets }}"
+  loop_control:
+    loop_var: "target"

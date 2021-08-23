@@ -1,0 +1,5 @@
+---
+# vars file for ricsanfre.iscsitarget
+
+iscsi_packages:
+  - targetcli-fb
