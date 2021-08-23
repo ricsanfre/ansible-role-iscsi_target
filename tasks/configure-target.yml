@@ -30,7 +30,7 @@
     loop_var: "initiator"
   notify:
     - save targetcli configuration
-  no_log: True
+  no_log: true
 
 - name: Configure authentication for target {{ target.name }}
   targetcli_iscsi_auth:
@@ -47,7 +47,7 @@
     loop_var: "initiator"
   with_items:
     - "{{ target.initiators | default(iscsi_default_initiators) }}"
-  no_log: True
+  no_log: true
 
 - name: Remove default portal for {{ target.name }}
   targetcli_iscsi_portal:
