@@ -13,7 +13,7 @@ platforms:
   - name: ubuntu
     box: generic/ubuntu2004
     cpu: 1
-    memory: 512
+    memory: 1024
     provider_raw_config_args:
       - "storage :file, :size => '1G', :device => 'vdb'"
 provisioner:

@@ -4,30 +4,16 @@
   become: true
   gather_facts: true
   vars:
-
     storage_partitions:
       - name: /dev/vdb
         number: 1
-        part_end: 100MB
-      - name: /dev/vdb
-        number: 2
         flags:
           - lvm
-        part_start: 100MB
-        part_end: 300MB
-      - name: /dev/vdb
-        number: 3
-        flags:
-          - lvm
-        part_start: 300MB
-        part_end: 100%
+        part_end: 1GB
     storage_volumegroups:
-      - name: vg_local
-        devices:
-          - /dev/vdb2
       - name: vg_iscsi
         devices:
-          - /dev/vdb3
+          - /dev/vdb1
     storage_volumes:
       - name: vg_iscsi_lv_node1
         vg: vg_iscsi
@@ -41,10 +27,6 @@
       - name: vg_iscsi_lv_node4
         vg: vg_iscsi
         size: 100
-      - name: vg_local_lv_data
-        vg: vg_local
-        size: 100
-
     iscsi_targets:
       - name: "iqn.2021-07.com.ricsanfre:{{ ansible_facts['nodename'] }}"
         disks:
@@ -60,6 +42,21 @@
           - name: lun_node4
             path: /dev/vg_iscsi/vg_iscsi_lv_node4
             type: block
+        initiators:
+          - name: iqn.2021-07.com.ricsanfre:node1
+            authentication:
+              userid: node1
+              password: passwd1
+            mapped_luns:
+              - lun_id: 0
+                disk_name: lun_node1
+          - name: iqn.2021-07.com.ricsanfre:node2
+            authentication:
+              userid: node2
+              password: passwd2
+        portals:
+          - ip: "{{ ansible_default_ipv4.address | default(ansible_all_ipv4_addresses[0]) }}"
+
   roles:
     - ricsanfre.storage
     - ricsanfre.iscsitarget
