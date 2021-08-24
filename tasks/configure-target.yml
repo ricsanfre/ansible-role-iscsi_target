@@ -6,6 +6,11 @@
   notify:
     - save targetcli configuration
 
+- name: Disable auto add mapped luns
+  targetcli_preferences:
+    preference: 'auto_add_mapped_luns'
+    value: 'false'
+
 - name: Create or remove backstore objects for target {{ target.name }}
   targetcli_backstore:
     backstore_type: "{{ disk.type | default(iscsi_default_disk_type) }}"
@@ -14,6 +19,19 @@
     state: "{{ target.state | default('present') }}"
   with_items:
     - "{{ target.disks }}"
+  loop_control:
+    loop_var: "disk"
+  notify:
+    - save targetcli configuration
+
+- name: Create or remove LUNs for target {{ target.name }}
+  targetcli_iscsi_lun:
+    wwn: "{{ target.name }}"
+    backstore_type: "{{ disk.type | default(iscsi_default_disk_type) }}"
+    backstore_name: "{{ disk.name }}"
+  with_items:
+    - "{{ target.disks }}"
+  when: target.state|default("present") == "present"
   loop_control:
     loop_var: "disk"
   notify:
@@ -49,6 +67,8 @@
     - "{{ target.initiators | default(iscsi_default_initiators) }}"
   no_log: true
 
+# Assign mapped LUNs to initiator
+
 - name: Remove default portal for {{ target.name }}
   targetcli_iscsi_portal:
     wwn: "{{ target.name }}"
@@ -71,15 +91,4 @@
   with_items:
     - "{{ target.portals | default(iscsi_default_portals) }}"
 
-- name: Assign backstores to initiators for target {{ target.name }}
-  targetcli_iscsi_lun:
-    wwn: "{{ target.name }}"
-    backstore_type: "{{ disk.type | default(iscsi_default_disk_type) }}"
-    backstore_name: "{{ disk.name }}"
-  with_items:
-    - "{{ target.disks }}"
-  when: target.state|default("present") == "present"
-  loop_control:
-    loop_var: "disk"
-  notify:
-    - save targetcli configuration
+
