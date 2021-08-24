@@ -21,7 +21,7 @@
 
 - name: Define ACLs for iSCSI target {{ target.name }}
   targetcli_iscsi_acl:
-    wwn: "{{ iscsi_base_wwn }}:{{ target.name }}"
+    wwn: "{{ target.name }}"
     initiator_wwn: "{{ initiator.name }}"
   with_items:
     - "{{ target.initiators | default(iscsi_default_initiators) }}"
@@ -34,7 +34,7 @@
 
 - name: Configure authentication for target {{ target.name }}
   targetcli_iscsi_auth:
-    wwn: "{{ iscsi_base_wwn }}:{{ target.name }}"
+    wwn: "{{ target.name }}"
     initiator_wwn: "{{ initiator.name }}"
     userid: "{{ initiator.authentication.userid }}"
     password: "{{ initiator.authentication.password }}"
@@ -51,7 +51,7 @@
 
 - name: Remove default portal for {{ target.name }}
   targetcli_iscsi_portal:
-    wwn: "{{ iscsi_base_wwn }}:{{ target.name }}"
+    wwn: "{{ target.name }}"
     ip: "0.0.0.0"
     state: absent
   notify:
@@ -60,7 +60,7 @@
 
 - name: Create portal for target {{ target.name }}
   targetcli_iscsi_portal:
-    wwn: "{{ iscsi_base_wwn }}:{{ target.name }}"
+    wwn: "{{ target.name }}"
     ip: "{{ portal.ip }}"
     port: "{{ portal.port | default(omit) }}"
   notify:
@@ -73,7 +73,7 @@
 
 - name: Assign backstores to initiators for target {{ target.name }}
   targetcli_iscsi_lun:
-    wwn: "{{ iscsi_base_wwn }}:{{ target.name }}"
+    wwn: "{{ target.name }}"
     backstore_type: "{{ disk.type | default(iscsi_default_disk_type) }}"
     backstore_name: "{{ disk.name }}"
   with_items:
