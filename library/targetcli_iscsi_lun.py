@@ -51,6 +51,7 @@ def main():
                         wwn=dict(required=True),
                         backstore_type=dict(required=True),
                         backstore_name=dict(required=True),
+                        lunid=dict(required=True),
                         state=dict(default="present", choices=['present', 'absent']),
                 ),
                 supports_check_mode=True
@@ -81,6 +82,7 @@ def main():
                     if row_data[1] == "luns":
                         continue
                     luns[row_data[5][1:]] = row_data[3][3:]
+                    # luns['/block/<disk_name>']= lun_id
                 if state == 'present' and lun_path in luns:
                     # LUN is already there and present
                     result['changed'] = False
@@ -93,7 +95,7 @@ def main():
                     if module.check_mode:
                         module.exit_json(changed=True)
                     else:
-                        rc, out, err = module.run_command("targetcli '/iscsi/%(wwn)s/tpg1/luns create /backstores/%(backstore_type)s/%(backstore_name)s'" % module.params)
+                        rc, out, err = module.run_command("targetcli '/iscsi/%(wwn)s/tpg1/luns create lun=%(lunid)s storage_object=/backstores/%(backstore_type)s/%(backstore_name)s'" % module.params)
                         if rc == 0:
                             module.exit_json(changed=True)
                         else:

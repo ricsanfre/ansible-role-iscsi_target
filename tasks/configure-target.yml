@@ -29,6 +29,7 @@
     wwn: "{{ target.name }}"
     backstore_type: "{{ disk.type | default(iscsi_default_disk_type) }}"
     backstore_name: "{{ disk.name }}"
+    lunid: "{{ disk.lunid }}"
   with_items:
     - "{{ target.disks }}"
   when: target.state|default("present") == "present"
