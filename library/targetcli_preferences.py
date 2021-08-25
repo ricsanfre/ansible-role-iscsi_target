@@ -56,10 +56,13 @@ def main():
 
         try:
             rc, out, err = module.run_command("targetcli 'get global %(preference)s'" % module.params)
-            expected_result = "%(preference)s=%(value)s" % module.params
-            if rc == 0 and out == expected_result:
+            row_data = out.split('\n')[0].split('=')
+            already_set = False
+            if row_data[0] == preference and row_data[1].strip() == value:
+                already_set = True
+            if rc == 0 and already_set:
                 result['changed'] = False
-            elif rc == 0 and out != expected_result:
+            elif rc == 0 and not already_set:
                 if module.check_mode:
                     module.exit_json(changed=True)
                 else:
