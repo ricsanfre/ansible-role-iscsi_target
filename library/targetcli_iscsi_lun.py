@@ -23,6 +23,11 @@ options:
       - name of backstore object
     required: true
     default: null
+  lunid:
+    description:
+      - LUN id associated to the backstore object
+    required: true
+    default: null
   state:
     description:
       - Should the object be present or absent from TargetCLI configuration
@@ -30,17 +35,17 @@ options:
     default: present
     choices: [present, absent]
 notes:
-   - Tested on CentOS 7.2
+   - Tested on Ubuntu 20.4
 requirements: [ ]
-author: "Ondrej Famera <ondrej-xa2iel8u@famera.cz>"
+authors: "Ondrej Famera <ondrej-xa2iel8u@famera.cz>" and "Ricardo Sanchez <ricsanfre@gmail.com>"
 '''
 
 EXAMPLES = '''
 define new iSCSI LUN
-- targetcli_iscsi_lun: wwn=iqn.1994-05.com.redhat:fastvm backstopre_type=block backstore_name=test1
+- targetcli_iscsi_lun: wwn=iqn.1994-05.com.redhat:fastvm backstopre_type=block backstore_name=test1 lunid=1
 
 remove iSCSI LUN
-- targetcli_iscsi_lun: wwn=iqn.1994-05.com.redhat:hell backstopre_type=block backstore_name=test2 state=absent
+- targetcli_iscsi_lun: wwn=iqn.1994-05.com.redhat:hell backstopre_type=block backstore_name=test2 lunid=1 state=absent
 '''
 
 from distutils.spawn import find_executable

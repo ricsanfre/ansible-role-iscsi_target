@@ -23,6 +23,7 @@ options:
     description:
       - Value of the global preference
     required: true
+    default: nulle
 notes:
    - Tested on Ubuntu 20.04
 requirements: [ ]
@@ -31,7 +32,7 @@ author: "Ricardo Sanchez <ricsanfre@gmail.com>"
 
 EXAMPLES = '''
 define new new value for a global preference
-- targetcli_pref: preference=auto_add_mapped_luns value=false
+- targetcli_preferences: preference=auto_add_mapped_luns value=false
 
 '''
 
