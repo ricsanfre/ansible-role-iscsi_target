@@ -18,17 +18,17 @@
   notify:
     - save targetcli configuration
 
-# # Assign mapped LUNs to initiator
-# - name: Adding mapped LUNs for initiator {{ initiator.name }} and target {{ target.name }}
-#   targetcli_iscsi_mappedlun:
-#     wwn: "{{ target.name }}"
-#     initiator_wwn: "{{ initiator.name }}"
-#     mapped_lunid: "{{ mapped_lun.mapped_lunid }}"
-#     lunid: "{{ mapped_lun.lunid }}"
-#   notify:
-#     - save targetcli configuration
-#   when: target.state|default("present") == "present"
-#   loop_control:
-#     loop_var: "mapped_lun"
-#   with_items:
-#     - "{{ initiator.mapped_luns }}"
+# Assign mapped LUNs to initiator
+- name: Adding mapped LUNs for initiator {{ initiator.name }} and target {{ target.name }}
+  targetcli_iscsi_mappedlun:
+    wwn: "{{ target.name }}"
+    initiator_wwn: "{{ initiator.name }}"
+    mapped_lunid: "{{ mapped_lun.mapped_lunid }}"
+    lunid: "{{ mapped_lun.lunid }}"
+  notify:
+    - save targetcli configuration
+  when: target.state|default("present") == "present"
+  loop_control:
+    loop_var: "mapped_lun"
+  with_items:
+    - "{{ initiator.mapped_luns }}"

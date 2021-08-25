@@ -52,15 +52,17 @@
               userid: node1
               password: passwd1
             mapped_luns:
-              - mapped_lun_id: 0
-                tpg_lun_id: 0
+              - mapped_lunid: 0
+                lunid: 0
+              - mapped_lunid: 1
+                lunid: 2
           - name: iqn.2021-07.com.ricsanfre:node2
             authentication:
               userid: node2
               password: passwd2
             mapped_luns:
-              - mapped_lun_id: 0
-                tpg_lun_id: 1
+              - mapped_lunid: 0
+                lunid: 1
         portals:
           - ip: "{{ ansible_default_ipv4.address | default(ansible_all_ipv4_addresses[0]) }}"
 
