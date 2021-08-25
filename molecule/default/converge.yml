@@ -63,6 +63,9 @@
             mapped_luns:
               - mapped_lunid: 0
                 lunid: 1
+              - mapped_lunid: 1
+                lunid: 3
+                write_protect: 1
         portals:
           - ip: "{{ ansible_default_ipv4.address | default(ansible_all_ipv4_addresses[0]) }}"
 

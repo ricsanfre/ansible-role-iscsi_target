@@ -28,6 +28,12 @@ options:
       - associated lun id
     required: true
     default: null
+  write_protec:
+    description:
+      - whether the initiator will have write access to the Mapped LUN
+    required: false
+    default: 0
+    choices: [0, 1]
   state:
     description:
       - Should the object be present or absent from TargetCLI configuration
@@ -45,6 +51,10 @@ EXAMPLES = '''
 Define new mapped LUN
 - targetcli_iscsi_mappedlun: wwn=iqn.2003-01.org.linux-iscsi.storage01.x8664:portaltest initiator_wwn=iqn.1994-05.com.redhat:client1 mapped_lunid=0 lunid=0
 
+Define new mapped LUN with write protect
+
+- targetcli_iscsi_mappedlun: wwn=iqn.2003-01.org.linux-iscsi.storage01.x8664:portaltest initiator_wwn=iqn.1994-05.com.redhat:client1 mapped_lunid=0 lunid=0 write_protect=1
+
 Remove mapped LUN
 
 - targetcli_iscsi_mappedlun: wwn=iqn.2003-01.org.linux-iscsi.storage01.x8664:portaltest initiator_wwn=iqn.1994-05.com.redhat:client1 mapped_lunid=0 lunid=0 state=absent
@@ -61,6 +71,7 @@ def main():
       initiator_wwn=dict(required=True),
       lunid=dict(required=True),
       mapped_lunid=dict(required=True),
+      write_protect=dict(default="0", choices=['0', '1']),
       state=dict(default="present", choices=['present', 'absent']),
     ),
     supports_check_mode=True)
@@ -100,7 +111,7 @@ def main():
     elif state == 'present' and not mapped_lunid in mapped_luns:
         # create mapped LUN
         rc, out, err = module.run_command(
-          "targetcli '/iscsi/%(wwn)s/tpg1/acls/%(initiator_wwn)s create mapped_lun=%(mapped_lunid)s tpg_lun_or_backstore=%(lunid)s'"
+          "targetcli '/iscsi/%(wwn)s/tpg1/acls/%(initiator_wwn)s create mapped_lun=%(mapped_lunid)s tpg_lun_or_backstore=%(lunid)s write_protect=%(write_protect)s'"
           % module.params)
         if rc == 0:
           module.exit_json(changed=True)
