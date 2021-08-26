@@ -1,6 +1,6 @@
 ---
 galaxy_info:
-  role_name: iscsi-target
+  role_name: iscsi_target
   author: ricsanfre
   description: Configure iSCSI Target role
 

@@ -71,4 +71,4 @@
 
   roles:
     - ricsanfre.storage
-    - ricsanfre.iscsi-target
+    - ricsanfre.iscsi_target
