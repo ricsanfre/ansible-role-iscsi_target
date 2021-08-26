@@ -1,6 +1,6 @@
 ---
 
-- name: Install targetcli apt packages
+- name: Install targetcli packages
   package:
     name: "{{ iscsi_packages }}"
     state: present
