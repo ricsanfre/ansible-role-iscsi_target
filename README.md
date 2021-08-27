@@ -149,7 +149,7 @@ This example use `ricsanfre.storage` role for creating the logical volumes used 
 
   roles:
     - ricsanfre.storage
-    - ricsanfre.iscsi-target
+    - ricsanfre.iscsi_target
 ```
 
 License
