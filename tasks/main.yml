@@ -10,3 +10,8 @@
     - "{{ iscsi_targets }}"
   loop_control:
     loop_var: "target"
+
+- name: Ensure targetcli configuration is loaded at boot
+  service:
+    name: rtslib-fb-targetctl
+    enabled: true
