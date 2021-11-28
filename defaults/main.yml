@@ -1,39 +1,48 @@
 ---
-
-
-iscsi_default_initiators: []
-iscsi_default_portals: []
-iscsi_default_disk_type: block
-
-# ISCSI targets
-
-iscis_targets: []
+# The iSCSI target(s) is/are configured via "iscsi_targets" nested variable.
+# A quite minimal setup looks like this example:
+#
 # iscsi_targets:
-#   - name: iqn.target1
+#   - name: "iqn.2021-11.blog.tauceti:{{ ansible_facts['nodename'] }}"
 #     disks:
-#       - name: vm1
-#         path: testing/vm1
-#       - name: vm2
-#         path: testing/vm2
-#   - name: iqn.2021-07.com.ricsanfre:target1
-#     disks:
-#       - name: vm3
-#         path: testing/vm2
-#         type: iblock
+#       - name: lun_node1
+#         path: /dev/vdb
+#         type: block
+#         lunid: 0
 #     initiators:
-#       - name: iqn.2021-07.com.ricsanfre:target1
+#       - name: iqn.2021-07.blog.tauceti:node1
 #         authentication:
-#           userid: myuser
-#           password: mypassword
-#           userid_mutual: sharedkey
-#           password_mutual: sharedsecret
-#       - name: iqn.1994-05.com.redhat:client2
-#         authentication:
-#           userid: otheruser
-#           password: otherpw
-#           userid_mutual: somekey
-#           password_mutual: somesecret
+#           userid: node1user
+#           password: node1pw
+#           userid_mutual: node1sharedkey
+#           password_mutual: node1sharedsecret
+#         mapped_luns:
+#           - mapped_lunid: 0
+#             lunid: 0
 #     portals:
-#       - ip: 192.168.1.45
-#         port: 5555
-#       - ip: 192.168.2.10
+#       - ip: "0.0.0.0"
+#
+# For more information see README.
+iscsi_targets: []
+
+#######################################
+# Settings only relevant for Archlinux
+#######################################
+
+# "targetcli-fb" package is needed to configure iSCSI target. For Archlinux
+# this package needs to be installed from AUR. This requires an AUR install
+# helper like "yay", "paru", "pacaur", "trizen" or "pikaur". If such a helper
+# is already installed on the target host then there is no need to install it
+# via this role. In this case "iscsi_archlinux_aur_helper" needs to be 
+# commented and this role will skip the installation of an AUR helper.
+# The install task picks one of the AUR helper mentioned above (in that order)
+# to install the iSCSI packages.
+iscsi_archlinux_aur_helper: yay
+
+# While Ansible expects to SSH as root, makepkg or AUR helpers do not allow
+# executing operations as root, they fail with "you cannot perform this
+# operation as root". It is therefore recommended to have a user, which
+# is non-root but has no need for password. If "iscsi_archlinux_aur_helper"
+# variable is set it is assumed that the AUR helper user doesn't exist yet
+# so it will be created. The user will be part of the "wheel" group.
+iscsi_archlinux_aur_helper_user: aur_builder
