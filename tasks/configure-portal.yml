@@ -1,5 +1,4 @@
 ---
-
 - name: Create portal for target {{ target.name }}
   targetcli_iscsi_portal:
     wwn: "{{ target.name }}"

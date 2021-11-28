@@ -1,5 +1,4 @@
 ---
-
 - name: Create or remove backstore objects for disk {{ disk.name }} and target {{ target.name }}
   targetcli_backstore:
     backstore_type: "{{ disk.type | default(iscsi_default_disk_type) }}"

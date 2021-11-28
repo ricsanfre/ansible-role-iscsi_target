@@ -1,5 +1,4 @@
 ---
-
 - name: Define ACLs for iSCSI initiator {{ initiator.name }} for target {{ target.name }}
   targetcli_iscsi_acl:
     wwn: "{{ target.name }}"
