@@ -29,7 +29,7 @@ options:
     required: false
     choices: [present, absent]
 notes:
-   - Tested on CentOS 7.2
+   - Tested on Archlinux, Ubuntu 20.04
 requirements: [ ]
 author: "Ondrej Famera <ondrej-xa2iel8u@famera.cz>"
 '''

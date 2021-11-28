@@ -42,7 +42,7 @@ options:
     choices: [present, absent]
 
 notes:
-   - tested on Ubuntu 20.04
+   - Tested on Archlinux, Ubuntu 20.04
 requirements: [ ]
 author: "Ricardo Sanchez <ricsanfre@gmail.com>"
 '''

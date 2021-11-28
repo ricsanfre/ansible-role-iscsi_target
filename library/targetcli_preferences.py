@@ -25,7 +25,7 @@ options:
     required: true
     default: nulle
 notes:
-   - Tested on Ubuntu 20.04
+   - Tested on Archlinux, Ubuntu 20.04
 requirements: [ ]
 author: "Ricardo Sanchez <ricsanfre@gmail.com>"
 '''

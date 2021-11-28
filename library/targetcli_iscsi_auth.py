@@ -39,7 +39,7 @@ options:
     required: false
     default: null
 notes:
-   - tested on Ubuntu 16.04
+   - Tested on Archlinux, Ubuntu 20.04
 requirements: [ ]
 author: "Michel Weitbrecht <michel.weitbrecht@stuvus.uni-stuttgart.de>"
 '''

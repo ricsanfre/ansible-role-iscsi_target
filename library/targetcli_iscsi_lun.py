@@ -35,7 +35,7 @@ options:
     default: present
     choices: [present, absent]
 notes:
-   - Tested on Ubuntu 20.4
+   - Tested on Archlinux, Ubuntu 20.04
 requirements: [ ]
 authors: "Ondrej Famera <ondrej-xa2iel8u@famera.cz>" and "Ricardo Sanchez <ricsanfre@gmail.com>"
 '''
